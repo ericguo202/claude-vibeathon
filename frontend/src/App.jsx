@@ -14,7 +14,7 @@ function App() {
           <div className="container mx-auto px-8 py-4">
             <div className="flex items-center justify-between">
               <Link to="/" className="text-2xl font-bold hover:opacity-90 transition">
-                🐯 Princeton Club Matcher
+                🐯 TigerDen
               </Link>
               <div className="flex gap-6">
                 <NavLink

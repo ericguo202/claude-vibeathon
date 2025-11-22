@@ -28,8 +28,9 @@ function Results() {
   return (
     <div className="container mx-auto p-8 max-w-6xl">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-orange-600 mb-4">Your Club Matches! 🎯</h1>
+      <div className="mb-8 text-center">
+        <div className="text-5xl mb-4">🐯</div>
+        <h1 className="text-4xl font-bold text-orange-600 mb-4">Welcome to Your Den! 🎯</h1>
         
         {/* Summary from Claude */}
         <div className="bg-orange-50 border-l-4 border-orange-600 p-6 rounded-lg">

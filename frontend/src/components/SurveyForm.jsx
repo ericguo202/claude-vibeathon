@@ -88,8 +88,11 @@ function SurveyForm() {
 
   return (
     <div className="container mx-auto p-8 max-w-4xl">
-      <h1 className="text-3xl font-bold mb-6">Princeton Club Matcher</h1>
-      <p className="mb-8">Tell us about yourself and we'll match you with clubs that fit your interests!</p>
+      <div className="text-center mb-8">
+        <div className="text-5xl mb-4">🐯</div>
+        <h1 className="text-4xl font-bold text-orange-600 mb-4">Find Your Den</h1>
+        <p className="text-lg text-gray-600">Tell us about yourself and we'll match you with clubs where you'll truly belong!</p>
+      </div>
       
       <form onSubmit={handleSubmit} className="space-y-6">
         
