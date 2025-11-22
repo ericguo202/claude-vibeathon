@@ -21,9 +21,7 @@ TigerDen uses advanced AI matching to connect Princeton students with clubs that
 
 ## 🎬 3-Minute Interview Demo
 
-[**Watch the Demo Video**](https://youtube.com/your-video-link-here)
-
-*Link will be updated after recording*
+[**Watch the Demo Video**](https://youtu.be/GwZiXfuwfY8)
 
 ---
 
