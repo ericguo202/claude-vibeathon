@@ -139,12 +139,41 @@ ${JSON.stringify(clubData, null, 2)}
 INSTRUCTIONS:
 - Analyze the student's interests, time commitment, budget, and preferences
 - Select 8-10 clubs that best match their profile, ordered by match score (highest first)
-- Consider year restrictions if any clubs have them (eating clubs are for juniors/seniors)
-- Respect their budget constraints (membership dues must be within their budget)
-- Match their social vs professional preference (1-5 is more social, 6-10 is more professional)
-- Consider their available time vs club time commitment requirements
-- If they mentioned specific clubs, prioritize those if they're good matches
 - Include clubs from diverse categories when possible
+
+MATCH SCORE CALCULATION (0-100):
+Calculate scores based on these weighted factors:
+
+1. INTEREST ALIGNMENT (40 points max):
+   - Strong overlap between student interests and club category/activities: 35-40 points
+   - Moderate overlap: 25-34 points
+   - Weak overlap: 10-24 points
+   - No overlap: 0-9 points
+
+2. PRACTICAL COMPATIBILITY (30 points max):
+   - Time commitment fits availability: +15 points (penalty if mismatch)
+   - Membership dues within budget: +15 points (exclude club if over budget)
+   - Year restrictions respected: +0 points (exclude if restricted)
+
+3. GOALS & VALUES ALIGNMENT (20 points max):
+   - Career goals match club focus: +10 points
+   - Social/Professional preference matches club culture: +10 points
+   - What matters most aligns with club benefits: included in above
+
+4. ENGAGEMENT STYLE FIT (10 points max):
+   - Contribution preferences match club opportunities: +5 points
+   - Skill preference (use/learn) matches club level: +5 points
+
+5. BONUS FACTORS:
+   - Student specifically mentioned this club: +5 points
+   - Selectiveness preference matches club: +3 points
+
+SCORE INTERPRETATION:
+- 90-100: Exceptional fit - highly recommend
+- 80-89: Strong fit - very good match
+- 70-79: Good fit - worth exploring
+- 60-69: Moderate fit - consider if interested
+- Below 60: Weak fit - do not include
 
 IMPORTANT: For the TOP 5 matches, provide full details (reasoning, matchedInterests, commitmentLevel)
 For matches 6-10, ONLY provide: clubId, clubName, and matchScore
@@ -169,7 +198,11 @@ RESPOND WITH ONLY VALID JSON IN THIS EXACT FORMAT (no other text):
   "summary": "Overall explanation of the matching strategy and why these clubs were selected (2-3 sentences)"
 }
 
-NOTE: First 5 matches must have all fields, matches 6-10 only need clubId, clubName, matchScore`;
+CRITICAL NOTES:
+- Calculate match scores using the weighted system above - they should be methodical, not arbitrary
+- Only include clubs scoring 60 or above
+- First 5 matches must have all fields, matches 6-10 only need clubId, clubName, matchScore
+- Order matches from highest to lowest score`;
 
     // Call Claude API
     console.log('🤖 Calling Claude API...');

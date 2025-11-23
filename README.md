@@ -104,6 +104,16 @@ TigerDen uses advanced AI matching to connect Princeton students with clubs that
 - Optimized token usage (~4,500 tokens per request)
 - Top 5 matches get detailed reasoning; remaining matches get basic info
 
+**Match Score Algorithm**
+TigerDen uses a weighted scoring system (0-100) to ensure scientific, consistent matches:
+- **Interest Alignment** (40%): Overlap between student interests and club focus
+- **Practical Compatibility** (30%): Time availability, budget, and year restrictions
+- **Goals & Values** (20%): Career goals and social/professional preference alignment
+- **Engagement Style** (10%): Contribution preferences and skill level fit
+- **Bonus Factors**: Specific club mentions (+5), selectiveness match (+3)
+
+Score ranges: 90-100 (Exceptional), 80-89 (Strong), 70-79 (Good), 60-69 (Moderate)
+
 ---
 
 ## 📝 Acknowledgements

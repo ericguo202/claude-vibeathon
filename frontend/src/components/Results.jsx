@@ -1,4 +1,5 @@
 import { useLocation, Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
 function Results() {
   const location = useLocation();
@@ -7,6 +8,30 @@ function Results() {
   // Split matches into top 5 and others
   const topMatches = matches.slice(0, 5);
   const otherMatches = matches.slice(5);
+
+  // Aggressive scroll to top - runs multiple times to catch layout shifts
+  useEffect(() => {
+    // Force immediate scroll
+    const scrollToTop = () => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      // Also try scrolling the main element if it exists
+      const main = document.querySelector('main');
+      if (main) main.scrollTop = 0;
+    };
+    
+    // Execute immediately
+    scrollToTop();
+    
+    // Then repeat at intervals to override any layout shifts
+    const timers = [0, 10, 50, 100, 200, 300].map(delay => 
+      setTimeout(scrollToTop, delay)
+    );
+    
+    // Cleanup timers
+    return () => timers.forEach(timer => clearTimeout(timer));
+  }, []);
 
   if (!matches || matches.length === 0) {
     return (

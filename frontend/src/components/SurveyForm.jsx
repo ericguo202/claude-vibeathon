@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function SurveyForm() {
@@ -20,6 +20,11 @@ function SurveyForm() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

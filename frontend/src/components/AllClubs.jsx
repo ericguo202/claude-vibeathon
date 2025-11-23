@@ -6,6 +6,12 @@ function AllClubs() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const categories = [
     'All',
@@ -47,9 +53,17 @@ function AllClubs() {
     }
   };
 
-  const filteredClubs = selectedCategory === 'All' 
-    ? clubs 
-    : clubs.filter(club => club.category === selectedCategory);
+  // Filter clubs by category and search query
+  const filteredClubs = clubs.filter(club => {
+    // Category filter
+    const matchesCategory = selectedCategory === 'All' || club.category === selectedCategory;
+    
+    // Search filter (case-insensitive, starts with query)
+    const matchesSearch = searchQuery === '' || 
+      club.name.toLowerCase().startsWith(searchQuery.toLowerCase());
+    
+    return matchesCategory && matchesSearch;
+  });
 
   if (loading) {
     return (
@@ -72,20 +86,69 @@ function AllClubs() {
       <h1 className="text-4xl font-bold mb-4">All Princeton Clubs</h1>
       <p className="text-gray-600 mb-8">Browse all {clubs.length} clubs available on campus</p>
 
-      {/* Category Filter */}
-      <div className="mb-8">
-        <label className="block font-semibold mb-2">Filter by Category:</label>
-        <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-          className="w-full md:w-auto px-4 py-2 border rounded"
-        >
-          {categories.map(category => (
-            <option key={category} value={category}>
-              {category} {category === 'All' ? `(${clubs.length})` : `(${clubs.filter(c => c.category === category).length})`}
-            </option>
-          ))}
-        </select>
+      {/* Search and Filter Section */}
+      <div className="mb-8 space-y-4">
+        {/* Search Bar */}
+        <div>
+          <label className="block font-semibold mb-2">Search by Club Name:</label>
+          <div className="relative">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Type to search... (e.g., 'Hoagie', 'AI', 'Tennis')"
+              className="w-full px-4 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            />
+            <svg 
+              className="absolute left-3 top-3 h-5 w-5 text-gray-400"
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" 
+              />
+            </svg>
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600"
+                aria-label="Clear search"
+              >
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Category Filter */}
+        <div>
+          <label className="block font-semibold mb-2">Filter by Category:</label>
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="w-full md:w-auto px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+          >
+            {categories.map(category => (
+              <option key={category} value={category}>
+                {category} {category === 'All' ? `(${clubs.length})` : `(${clubs.filter(c => c.category === category).length})`}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Results Count */}
+        {(searchQuery || selectedCategory !== 'All') && (
+          <p className="text-sm text-gray-600">
+            Showing <span className="font-bold text-orange-600">{filteredClubs.length}</span> of {clubs.length} clubs
+            {searchQuery && <span> matching "{searchQuery}"</span>}
+          </p>
+        )}
       </div>
 
       {/* Clubs Grid */}
@@ -129,7 +192,25 @@ function AllClubs() {
       </div>
 
       {filteredClubs.length === 0 && (
-        <p className="text-center text-gray-500 mt-8">No clubs found in this category.</p>
+        <div className="text-center mt-8">
+          <p className="text-gray-500 text-lg mb-4">
+            {searchQuery 
+              ? `No clubs found matching "${searchQuery}"${selectedCategory !== 'All' ? ` in ${selectedCategory}` : ''}.`
+              : `No clubs found in ${selectedCategory}.`
+            }
+          </p>
+          {(searchQuery || selectedCategory !== 'All') && (
+            <button
+              onClick={() => {
+                setSearchQuery('');
+                setSelectedCategory('All');
+              }}
+              className="text-orange-600 font-semibold hover:text-orange-700 underline"
+            >
+              Clear all filters
+            </button>
+          )}
+        </div>
       )}
     </div>
   );
